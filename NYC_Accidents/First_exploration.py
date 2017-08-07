@@ -13,8 +13,8 @@ def plot_scatter(data, var1, var2, filename_list=['']):
     # data.plot(x=var1, y=var2)
     # plt.show()
     print("Plotting scatter plot...")
-    x = data[var1][0:10000]
-    y = data[var2][0:10000]
+    x = data[var1][0:25000]
+    y = data[var2][0:25000]
     xy = np.vstack([x, y])
     z = gaussian_kde(xy)(xy)
     idx = z.argsort()
@@ -29,14 +29,14 @@ def plot_scatter(data, var1, var2, filename_list=['']):
 
 def main():
     print("Loading the dataset")
-    df = pd.read_csv("accidents_2016.csv")
+    df = pd.read_csv("accidents_2016.csv", usecols=['LATITUDE', 'LONGITUDE'])
     print(df.columns.values)
+    # df = df.loc[, :]
     print("Number of rows:", len(df))
-    df.dropna()
+    df = df.dropna()
     print("Number of rows:", len(df))
 
-    # df = df.loc[lambda df: (isnan(float(df.LATITUDE)) != True )]
-    print(df['LATITUDE'])#, 'LONGITUDE'])
+    print(df.head())
     plot_scatter(df, 'LATITUDE', 'LONGITUDE')
 
     pass
