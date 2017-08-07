@@ -19,7 +19,7 @@ def plot_scatter(data, var1, var2, filename_list=['']):
     z = gaussian_kde(xy)(xy)
     idx = z.argsort()
     x, y, z = x[idx], y[idx], z[idx]
-    plt.scatter(x, y, c=z, s=2, edgecolor='', alpha=0.7)
+    plt.scatter(x, y, c=z, s=2, edgecolor='', alpha=0.7, cmap='magma')
     plt.xlabel(var1)
     plt.ylabel(var2)
     plt.colorbar()
