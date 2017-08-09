@@ -9,7 +9,7 @@ from math import isnan
 __author__ = "Sam Maddrell-Mander"
 __copyright__ = "University of Bristol, August 2017"
 
-def plot_scatter(data, var1, var2, filename_list=['']):
+def plot_scatter(data, var1, var2, filename_list=[''], cols='magma'):
     # data.plot(x=var1, y=var2)
     # plt.show()
     print("Plotting scatter plot...")
@@ -19,7 +19,7 @@ def plot_scatter(data, var1, var2, filename_list=['']):
     z = gaussian_kde(xy)(xy)
     idx = z.argsort()
     x, y, z = x[idx], y[idx], z[idx]
-    plt.scatter(x, y, c=z, s=2, edgecolor='', alpha=0.7, cmap='magma')
+    plt.scatter(x, y, c=z, s=2, edgecolor='', alpha=0.7, cmap=cols)
     plt.xlabel(var1)
     plt.ylabel(var2)
     plt.colorbar()
@@ -32,7 +32,9 @@ def main():
     df = pd.read_csv("accidents_2016.csv", usecols=['LATITUDE', 'LONGITUDE', 'NUMBER OF PERSONS INJURED'])
     print(df.columns.values)
     df = df.loc[lambda df: df.LONGITUDE > -100]
-    df = df.loc[lambda df: df['NUMBER OF PERSONS INJURED'] > 0]
+    df_inj = df.loc[lambda df: df['NUMBER OF PERSONS INJURED'] > 0]
+    df_fine = df.loc[lambda df: df['NUMBER OF PERSONS INJURED'] == 0]
+
 
     print("Number of rows:", len(df))
     df = df.dropna()
@@ -42,6 +44,11 @@ def main():
     plot_scatter(df, 'LATITUDE', 'LONGITUDE')
     plt.scatter(df['LATITUDE'], df['LONGITUDE'], c=df['NUMBER OF PERSONS INJURED'],edgecolor='',s=2,alpha=0.7,)
     plt.show()
+
+    plot_scatter(df_inj, 'LATITUDE', 'LONGITUDE')
+    plot_scatter(df_fine, 'LATITUDE', 'LONGITUDE')
+    plt.show()
+
     pass
 
 
