@@ -29,16 +29,19 @@ def plot_scatter(data, var1, var2, filename_list=['']):
 
 def main():
     print("Loading the dataset")
-    df = pd.read_csv("accidents_2016.csv", usecols=['LATITUDE', 'LONGITUDE'])
+    df = pd.read_csv("accidents_2016.csv", usecols=['LATITUDE', 'LONGITUDE', 'NUMBER OF PERSONS INJURED'])
     print(df.columns.values)
-    # df = df.loc[, :]
+    df = df.loc[lambda df: df.LONGITUDE > -100]
+    df = df.loc[lambda df: df['NUMBER OF PERSONS INJURED'] > 0]
+
     print("Number of rows:", len(df))
     df = df.dropna()
     print("Number of rows:", len(df))
 
     print(df.head())
     plot_scatter(df, 'LATITUDE', 'LONGITUDE')
-
+    plt.scatter(df['LATITUDE'], df['LONGITUDE'], c=df['NUMBER OF PERSONS INJURED'],edgecolor='',s=2,alpha=0.7,)
+    plt.show()
     pass
 
 
